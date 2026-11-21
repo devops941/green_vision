@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "name": "Madurai_District_Boundary",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "DISTRICT": "Madurai",
+        "STATE": "Tamil Nadu",
+        "COUNTRY": "India",
+        "CENSUS_CODE": "629",
+        "AREA_SQ_KM": 3741.0,
+        "TALUKS": [
+          "Madurai North",
+          "Madurai South",
+          "Melur",
+          "Thirumangalam",
+          "Usilampatti",
+          "Vadipatti",
+          "Peraiyur",
+          "Kalligudi",
+          "Tirupparankundram"
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.680, 9.750],
+            [77.720, 9.880],
+            [77.780, 10.050],
+            [77.850, 10.180],
+            [78.020, 10.290],
+            [78.180, 10.350],
+            [78.350, 10.310],
+            [78.480, 10.180],
+            [78.520, 10.020],
+            [78.470, 9.850],
+            [78.360, 9.680],
+            [78.220, 9.580],
+            [78.050, 9.530],
+            [77.890, 9.550],
+            [77.770, 9.630],
+            [77.680, 9.750]
+          ]
+        ]
+      }
+    }
+  ]
+}

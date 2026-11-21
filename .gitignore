@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# FastApi / SQLite Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Large Geospatial and Satellite Datasets (Do not commit large GeoTIFFs to git)
+*.tif
+*.tiff
+*.jp2
+*.h5
+*.hdf
+backend/data/raw/*
+!backend/data/raw/README.md
+backend/data/processed/*
+!backend/data/processed/README.md
+backend/data/ndvi_outputs/*
+!backend/data/ndvi_outputs/README.md
+backend/data/reports/*
+!backend/data/reports/README.md
+
+# Node / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+frontend/dist/
+frontend/build/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

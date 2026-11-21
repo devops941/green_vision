@@ -1,0 +1,132 @@
+from datetime import datetime
+from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field
+
+
+# =====================================================================
+# Health & Status Schemas
+# =====================================================================
+
+class SystemStatusResponse(BaseModel):
+    status: str
+    service: str
+    version: str
+    target_scope: str
+    python_version: str
+    backend_time: str
+    data_directories: Dict[str, bool]
+
+
+# =====================================================================
+# Madurai District Schemas
+# =====================================================================
+
+class GeoBBox(BaseModel):
+    min_longitude: float
+    min_latitude: float
+    max_longitude: float
+    max_latitude: float
+
+
+class GeoCenter(BaseModel):
+    latitude: float
+    longitude: float
+
+
+class MaduraiOverviewResponse(BaseModel):
+    district: str
+    state: str
+    country: str
+    center: GeoCenter
+    bbox_wgs84: GeoBBox
+    utm_crs: str
+    area_sq_km: float
+    taluks: List[str]
+    description: str
+
+
+# =====================================================================
+# Satellite Image Schemas
+# =====================================================================
+
+class SatelliteImageBase(BaseModel):
+    title: str
+    sensor: str
+    acquisition_date: datetime
+    year: int
+    month: Optional[int] = None
+    notes: Optional[str] = None
+
+
+class SatelliteImageCreate(SatelliteImageBase):
+    pass
+
+
+class SatelliteImageResponse(SatelliteImageBase):
+    id: int
+    red_band_path: str
+    nir_band_path: str
+    rgb_composite_path: Optional[str] = None
+    crs: str
+    spatial_resolution_m: float
+    bbox: Dict[str, float]
+    is_madurai_district: bool
+    cloud_cover_percentage: float
+    is_preprocessed: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+# =====================================================================
+# NDVI Analysis Schemas
+# =====================================================================
+
+class ClassificationBreakdownItem(BaseModel):
+    class_id: int
+    name: str
+    area_sq_km: float
+    percentage: float
+    color_hex: str
+
+
+class NdviAnalysisResponse(BaseModel):
+    id: int
+    satellite_image_id: int
+    created_at: datetime
+    mean_ndvi: float
+    min_ndvi: float
+    max_ndvi: float
+    std_ndvi: float
+    total_analyzed_area_sq_km: float
+    green_cover_sq_km: float
+    non_vegetation_sq_km: float
+    green_cover_percentage: float
+    classification_breakdown: List[ClassificationBreakdownItem]
+    colorized_png_url: str
+    histogram_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+# =====================================================================
+# Temporal Comparison Schemas
+# =====================================================================
+
+class ComparisonResponse(BaseModel):
+    id: int
+    title: str
+    baseline_year: int
+    target_year: int
+    green_cover_delta_sq_km: float
+    green_cover_delta_percentage: float
+    vegetation_gain_sq_km: float
+    vegetation_loss_sq_km: float
+    vegetation_stable_sq_km: float
+    difference_map_url: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
