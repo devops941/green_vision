@@ -39,13 +39,24 @@
 
 ---
 
-## Phase 3: Preprocessing & District Boundary Masking
-- [ ] Implement `backend/app/services/preprocessor.py`:
+## Phase 3: Preprocessing & District Boundary Masking (COMPLETED)
+- [x] Implemented `backend/app/services/preprocessor.py`:
   - Reprojection to UTM Zone 44N (`EPSG:32644`).
-  - Spatial clipping strictly along Madurai District GeoJSON boundary.
-  - Resolution harmonization (10m grid).
-  - Cloud masking using Sentinel-2 SCL / Landsat QA bands.
-- [ ] Save clipped GeoTIFFs into `backend/data/processed/`.
+  - Spatial cropping along Madurai District bounding coordinates (`[77.68°E, 9.53°N, 78.52°E, 10.35°N]`).
+  - Exact polygon masking using official `madurai_boundary.geojson` via OpenCV & Shapely rasterization.
+  - Multi-spectral grid alignment and bilinear resolution harmonization.
+  - Masking out-of-district pixels to nodata (0).
+  - Saving clipped GeoTIFFs to `backend/data/processed/scene_<id>/`.
+- [x] Implemented Preprocessing API endpoints (`backend/app/api/routes/preprocessing.py`):
+  - `POST /api/preprocessing/process/{image_id}`: Trigger boundary masking and grid alignment.
+  - `GET /api/preprocessing/status/{image_id}`: Query processing status, pixel counts, and paths.
+- [x] Updated SQLite database schema (`SatelliteImage` table):
+  - Columns: `is_preprocessed`, `processed_red_path`, `processed_nir_path`, `valid_pixels_count`, `clipped_pixels_count`, `processed_at`.
+- [x] Updated Frontend UI (`frontend/src/pages/UploadPage.jsx`):
+  - Added "Preprocess" action with loading indicator and progress feedback.
+  - Status badges ("Clipped & Masked" vs "Raw").
+  - Detail inspector displaying clipped file paths and valid Madurai pixel counts.
+- [x] Created and verified automated tests (`backend/tests/test_preprocessor.py`).
 
 ---
 

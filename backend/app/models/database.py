@@ -31,6 +31,8 @@ class SatelliteImage(Base):
     # File Storage Paths
     red_band_path = Column(String(500), nullable=False)
     nir_band_path = Column(String(500), nullable=False)
+    processed_red_path = Column(String(500), nullable=True)
+    processed_nir_path = Column(String(500), nullable=True)
     rgb_composite_path = Column(String(500), nullable=True)
 
     # Geospatial Validation Metadata
@@ -42,6 +44,9 @@ class SatelliteImage(Base):
 
     # Status
     is_preprocessed = Column(Boolean, default=False)
+    processed_at = Column(DateTime, nullable=True)
+    clipped_pixels_count = Column(Integer, nullable=True)
+    valid_pixels_count = Column(Integer, nullable=True)
     notes = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 

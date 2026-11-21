@@ -31,6 +31,10 @@ export const api = {
   getSatelliteImage: (id) => apiClient.get(`/satellite/images/${id}`),
 
   deleteSatelliteImage: (id) => apiClient.delete(`/satellite/images/${id}`),
+
+  // Preprocessing & District Masking (Phase 3)
+  preprocessImage: (id) => apiClient.post(`/preprocessing/process/${id}`),
+  getPreprocessingStatus: (id) => apiClient.get(`/preprocessing/status/${id}`),
 };
 
 export default apiClient;

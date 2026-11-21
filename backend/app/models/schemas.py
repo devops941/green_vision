@@ -66,6 +66,8 @@ class SatelliteImageResponse(SatelliteImageBase):
     id: int
     red_band_path: str
     nir_band_path: str
+    processed_red_path: Optional[str] = None
+    processed_nir_path: Optional[str] = None
     rgb_composite_path: Optional[str] = None
     crs: str
     spatial_resolution_m: float
@@ -73,10 +75,29 @@ class SatelliteImageResponse(SatelliteImageBase):
     is_madurai_district: bool
     cloud_cover_percentage: float
     is_preprocessed: bool
+    processed_at: Optional[datetime] = None
+    clipped_pixels_count: Optional[int] = None
+    valid_pixels_count: Optional[int] = None
     created_at: datetime
 
     class Config:
         from_attributes = True
+
+
+class PreprocessingResultResponse(BaseModel):
+    image_id: int
+    title: str
+    sensor: str
+    is_preprocessed: bool
+    clipped_red_path: str
+    clipped_nir_path: str
+    clipped_dimensions: Dict[str, int]
+    target_crs: str
+    spatial_resolution_m: float
+    total_clipped_pixels: int
+    valid_district_pixels: int
+    boundary_mask_applied: bool
+    message: str
 
 
 # =====================================================================
