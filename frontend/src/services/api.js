@@ -35,6 +35,12 @@ export const api = {
   // Preprocessing & District Masking (Phase 3)
   preprocessImage: (id) => apiClient.post(`/preprocessing/process/${id}`),
   getPreprocessingStatus: (id) => apiClient.get(`/preprocessing/status/${id}`),
+
+  // NDVI Calculation & Vegetation Classification (Phase 4)
+  calculateNdvi: (imageId) => apiClient.post(`/ndvi/calculate/${imageId}`),
+  listNdviAnalyses: () => apiClient.get('/ndvi/analyses'),
+  getNdviAnalysis: (analysisId) => apiClient.get(`/ndvi/analyses/${analysisId}`),
+  getNdviAnalysisByImage: (imageId) => apiClient.get(`/ndvi/analyses/image/${imageId}`),
 };
 
 export default apiClient;

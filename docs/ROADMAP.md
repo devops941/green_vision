@@ -60,17 +60,29 @@
 
 ---
 
-## Phase 4: Authentic NDVI Calculation & Vegetation Classification
-- [ ] Implement `backend/app/services/ndvi_service.py`:
-  - Float32 vectorized band arithmetic: `NDVI = (NIR - RED) / (NIR + RED)`.
-  - Division by zero and NaN handling.
-  - Statistical analysis (mean, min, max, standard deviation).
-- [ ] Implement `backend/app/services/classification_service.py`:
-  - Categorical binning: Water, Built-up/Barren, Sparse Veg, Moderate Veg, Dense Veg.
-  - Exact square kilometer and hectare calculations for each category.
-  - Green-cover percentage computation across Madurai District.
-- [ ] Render colorized visual PNGs using standardized GIS environmental color ramps.
-- [ ] Generate NDVI frequency distribution histograms using Matplotlib.
+## Phase 4: Authentic NDVI Calculation & Vegetation Classification (COMPLETED)
+- [x] Implemented `backend/app/services/ndvi_service.py`:
+  - Float32 vectorized scientific band arithmetic: `NDVI = (NIR - RED) / (NIR + RED)`.
+  - Zero-division handling and nodata exclusion for pixels outside Madurai District.
+  - Value bounds enforcement `[-1.0, 1.0]`.
+  - Statistical analysis: Mean NDVI, Min NDVI, Max NDVI, Standard Deviation.
+  - Exported single-band 32-bit float GeoTIFFs to `backend/data/ndvi_outputs/NDVI_float32_<id>.tif`.
+- [x] Implemented `backend/app/services/classification_service.py`:
+  - 5-tier environmental classification: Water (< 0.0), Built-up (0.0-0.2), Sparse Veg (0.2-0.4), Moderate Veg (0.4-0.6), Dense Veg (0.6-1.0).
+  - Exact metric calculations: square kilometers (`sq km`), hectares (`ha`), and green-cover percentage across Madurai.
+  - Exported classified integer GeoTIFFs (`NDVI_classified_<id>.tif`).
+  - Rendered high-resolution colorized PNG visualizations (`NDVI_colorized_<id>.png`).
+  - Generated scientific pixel frequency distribution histogram curves with Matplotlib (`NDVI_histogram_<id>.png`).
+- [x] Implemented NDVI REST API endpoints (`backend/app/api/routes/ndvi.py`):
+  - `POST /api/ndvi/calculate/{image_id}`: Authentic NDVI calculation and classification execution.
+  - `GET /api/ndvi/analyses`: List all computed analyses for Madurai.
+  - `GET /api/ndvi/analyses/{analysis_id}`: Query analysis by ID.
+  - `GET /api/ndvi/analyses/image/{image_id}`: Query analysis by parent scene ID.
+- [x] Built React NDVI Analytics Interface:
+  - `frontend/src/components/ndvi/NdviControls.jsx`: Scene picker, environmental class scale bar, execution trigger.
+  - `frontend/src/components/ndvi/NdviHistogram.jsx`: Matplotlib frequency distribution curve viewer.
+  - `frontend/src/pages/NdviAnalysisPage.jsx`: Full analytics hub with 4 KPI cards, colorized raster map preview, 5-class progress bars & area breakdown table.
+- [x] Created and verified automated tests (`backend/tests/test_ndvi.py`).
 
 ---
 

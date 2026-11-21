@@ -5,6 +5,7 @@ import Sidebar from './components/common/Sidebar';
 import DashboardPage from './pages/DashboardPage';
 import MaduraiOverviewPage from './pages/MaduraiOverviewPage';
 import UploadPage from './pages/UploadPage';
+import NdviAnalysisPage from './pages/NdviAnalysisPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/main.css';
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<DashboardPage />} />
               <Route path="/madurai" element={<MaduraiOverviewPage />} />
               <Route path="/upload" element={<UploadPage />} />
+              <Route path="/ndvi" element={<NdviAnalysisPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
