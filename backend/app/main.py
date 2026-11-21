@@ -58,16 +58,36 @@ def create_app() -> FastAPI:
     app.include_router(comparison.router, prefix="/api")
     app.include_router(reports.router, prefix="/api")
 
-    @app.get("/")
-    def root():
-        return {
-            "app": settings.APP_NAME,
-            "version": settings.APP_VERSION,
-            "scope": f"{settings.DISTRICT_NAME} District, {settings.STATE_NAME}, {settings.COUNTRY}",
-            "docs_url": "/docs",
-            "health_url": "/api/health",
-            "madurai_overview_url": "/api/madurai/overview",
-        }
+    # Mount Built Frontend SPA if available
+    frontend_build = (settings.BASE_DIR.parent / "frontend" / "build").resolve()
+    if frontend_build.exists() and (frontend_build / "index.html").exists():
+        from fastapi.responses import FileResponse
+
+        static_dir = frontend_build / "static"
+        if (static_dir / "js").exists():
+            app.mount("/static/js", StaticFiles(directory=str(static_dir / "js")), name="react_js")
+        if (static_dir / "css").exists():
+            app.mount("/static/css", StaticFiles(directory=str(static_dir / "css")), name="react_css")
+
+        @app.get("/{full_path:path}", include_in_schema=False)
+        async def serve_spa(full_path: str):
+            if full_path.startswith("api/") or full_path.startswith("docs") or full_path == "openapi.json":
+                return None
+            target = frontend_build / full_path
+            if full_path and target.exists() and target.is_file():
+                return FileResponse(target)
+            return FileResponse(frontend_build / "index.html")
+    else:
+        @app.get("/")
+        def root():
+            return {
+                "app": settings.APP_NAME,
+                "version": settings.APP_VERSION,
+                "scope": f"{settings.DISTRICT_NAME} District, {settings.STATE_NAME}, {settings.COUNTRY}",
+                "docs_url": "/docs",
+                "health_url": "/api/health",
+                "madurai_overview_url": "/api/madurai/overview",
+            }
 
     return app
 
