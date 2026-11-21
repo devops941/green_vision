@@ -12,9 +12,6 @@ class Settings(BaseSettings):
     HOST: str = "127.0.0.1"
     PORT: int = 8000
 
-    # Database
-    DATABASE_URL: str = "sqlite:///./greenvision.db"
-
     # Base Paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent
     DATA_DIR: Path = BASE_DIR / "data"
@@ -23,6 +20,9 @@ class Settings(BaseSettings):
     NDVI_OUTPUT_DIR: Path = BASE_DIR / "data" / "ndvi_outputs"
     REPORTS_DIR: Path = BASE_DIR / "data" / "reports"
     BOUNDARIES_DIR: Path = BASE_DIR / "data" / "boundaries"
+
+    # Database (Absolute path resolving to workspace root)
+    DATABASE_URL: str = f"sqlite:///{Path(__file__).resolve().parent.parent.parent / 'greenvision.db'}"
 
     # Satellite & File Upload Rules
     MAX_UPLOAD_SIZE_MB: int = 500
