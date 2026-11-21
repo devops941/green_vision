@@ -148,11 +148,11 @@ Green_Vision/
    ```bash
    python run.py
    ```
-   The backend will start at `http://127.0.0.1:8000`:
-   - Interactive Swagger API docs: `http://127.0.0.1:8000/docs`
-   - Operational Health: `http://127.0.0.1:8000/api/health`
-   - Madurai District Overview: `http://127.0.0.1:8000/api/madurai/overview`
-   - Madurai Official Boundary: `http://127.0.0.1:8000/api/madurai/boundary`
+   The backend will start at dedicated port `http://127.0.0.1:8001` (to prevent any conflict with other local projects on port 8000):
+   - Interactive Swagger API docs: `http://127.0.0.1:8001/docs`
+   - Operational Health: `http://127.0.0.1:8001/api/health`
+   - Madurai District Overview: `http://127.0.0.1:8001/api/madurai/overview`
+   - Madurai Official Boundary: `http://127.0.0.1:8001/api/madurai/boundary`
    - Satellite Ingestion: `POST /api/satellite/upload`
    - Boundary Masking: `POST /api/preprocessing/process/{id}`
    - Authentic NDVI Calculation: `POST /api/ndvi/calculate/{id}`
@@ -174,7 +174,7 @@ Green_Vision/
    ```bash
    npm start
    ```
-   The application dashboard will open at `http://localhost:3000`.
+   The application will automatically bind to dedicated port `http://localhost:3001` (via `frontend/.env`), coexisting smoothly with any other project on port 3000.
 
 ---
 

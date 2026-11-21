@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     DEBUG: bool = True
     HOST: str = "127.0.0.1"
-    PORT: int = 8000
+    PORT: int = 8001
 
     # Base Paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent
