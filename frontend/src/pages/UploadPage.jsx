@@ -62,7 +62,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div>
+    <div className="animate-fade-in">
       {/* Title & Scope */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>

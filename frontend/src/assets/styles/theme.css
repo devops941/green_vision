@@ -1,38 +1,47 @@
 :root {
-  /* Green & White Environmental Theme Palette */
-  --gv-primary: #1b5e20;        /* Deep Forest Green */
-  --gv-primary-hover: #2e7d32;  /* Vibrant Green */
-  --gv-primary-light: #e8f5e9;  /* Mint / Sage Tint */
-  --gv-primary-accent: #4caf50; /* Fresh Leaf */
+  /* GreenVision Pro High-Tech Environmental & Satellite Palette */
+  --gv-primary: #059669;          /* High-Vibrancy Emerald */
+  --gv-primary-dark: #064e3b;     /* Deep Botanical Green */
+  --gv-primary-hover: #10b981;    /* Luminous Emerald Green */
+  --gv-primary-light: #ecfdf5;    /* Soft Mint Glow */
+  --gv-primary-accent: #34d399;   /* Radiant Neon Leaf */
   
-  --gv-bg-main: #f8fafc;        /* Clean cool light background */
-  --gv-card-bg: #ffffff;        /* Pure White */
-  --gv-sidebar-bg: #0f291e;     /* Deep Botanical Dark Green */
-  --gv-sidebar-text: #e2e8f0;   /* Light Slate */
-  --gv-sidebar-hover: #1e4635;  /* Subtle Green Highlight */
-  
-  --gv-text-primary: #0f172a;   /* Slate 900 */
-  --gv-text-secondary: #475569; /* Slate 600 */
-  --gv-text-muted: #94a3b8;     /* Slate 400 */
-  
-  --gv-border: #e2e8f0;
-  --gv-border-focus: #4caf50;
-  
-  /* Status Colors */
+  --gv-sidebar-bg: #091a13;       /* Ultra-Deep Forest Night */
+  --gv-sidebar-surface: #0f291e;  /* Sidebar Surface Card */
+  --gv-sidebar-hover: #133a2a;    /* High-contrast Hover */
+  --gv-sidebar-text: #f1f5f9;     /* Crisp White-Slate */
+  --gv-sidebar-muted: #6ee7b7;    /* Glowing Mint Muted */
+
+  --gv-bg-main: #f8fafc;          /* Clean Ambient Background */
+  --gv-card-bg: #ffffff;          /* Pure White Surface */
+  --gv-card-border: #e2e8f0;      /* Subtle Modern Border */
+  --gv-card-border-glow: rgba(16, 185, 129, 0.3);
+
+  --gv-text-primary: #0f172a;     /* Slate 900 */
+  --gv-text-secondary: #475569;   /* Slate 600 */
+  --gv-text-muted: #94a3b8;       /* Slate 400 */
+
+  /* Status Tokens */
   --gv-success: #10b981;
   --gv-warning: #f59e0b;
   --gv-danger: #ef4444;
-  --gv-info: #0284c7;
+  --gv-info: #06b6d4;
 
-  /* NDVI Gradient Swatches */
-  --ndvi-water: #0d47a1;
-  --ndvi-builtup: #bdbdbd;
-  --ndvi-sparse: #fff59d;
-  --ndvi-moderate: #66bb6a;
-  --ndvi-dense: #1b5e20;
+  /* NDVI Gradient Palette */
+  --ndvi-water: #0284c7;
+  --ndvi-builtup: #94a3b8;
+  --ndvi-sparse: #fbbf24;
+  --ndvi-moderate: #4ade80;
+  --ndvi-dense: #047857;
 
-  --gv-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --gv-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-  --gv-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --gv-radius: 10px;
+  /* Elevations & Shadows */
+  --gv-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --gv-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --gv-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --gv-shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
+
+  --gv-radius-sm: 6px;
+  --gv-radius: 12px;
+  --gv-radius-lg: 16px;
+  --gv-radius-pill: 9999px;
 }

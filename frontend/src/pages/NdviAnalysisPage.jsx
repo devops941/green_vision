@@ -84,7 +84,7 @@ const NdviAnalysisPage = () => {
   const selectedScene = images.find((img) => img.id === selectedImageId);
 
   return (
-    <div>
+    <div className="animate-fade-in">
       {/* Title & Scope Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
