@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import get_settings
 from app.core.database import engine, Base
 from app.core.logging import logger
-from app.api.routes import health, madurai
+from app.api.routes import health, madurai, satellite
 
 settings = get_settings()
 
@@ -51,6 +51,7 @@ def create_app() -> FastAPI:
     # Register API Routers
     app.include_router(health.router, prefix="/api")
     app.include_router(madurai.router, prefix="/api")
+    app.include_router(satellite.router, prefix="/api")
 
     @app.get("/")
     def root():

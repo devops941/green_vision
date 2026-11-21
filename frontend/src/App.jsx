@@ -4,6 +4,7 @@ import Header from './components/common/Header';
 import Sidebar from './components/common/Sidebar';
 import DashboardPage from './pages/DashboardPage';
 import MaduraiOverviewPage from './pages/MaduraiOverviewPage';
+import UploadPage from './pages/UploadPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/main.css';
 
@@ -18,7 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/madurai" element={<MaduraiOverviewPage />} />
-              {/* Additional modules reserved for Phase 2 onwards */}
+              <Route path="/upload" element={<UploadPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>

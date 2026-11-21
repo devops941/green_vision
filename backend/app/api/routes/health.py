@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter
 from app.config import get_settings
 from app.models.schemas import SystemStatusResponse
@@ -28,6 +28,6 @@ def get_system_status():
         version=settings.APP_VERSION,
         target_scope="Madurai District, Tamil Nadu, India",
         python_version=sys.version.split()[0],
-        backend_time=datetime.utcnow().isoformat() + "Z",
+        backend_time=datetime.now(timezone.utc).isoformat(),
         data_directories=data_dirs_exist,
     )
