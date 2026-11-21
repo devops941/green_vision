@@ -43,6 +43,17 @@ export const api = {
   getNdviAnalysisByImage: (imageId) => apiClient.get(`/ndvi/analyses/image/${imageId}`),
   probeNdviPixel: (imageId, lat, lon) =>
     apiClient.get(`/ndvi/probe/${imageId}`, { params: { lat, lon } }),
+
+  // Temporal Change & Multi-Year Comparison (Phase 6)
+  compareScenes: (data) => apiClient.post('/comparison/compare', data),
+  listComparisons: () => apiClient.get('/comparison/list'),
+  getComparison: (comparisonId) => apiClient.get(`/comparison/${comparisonId}`),
+
+  // PDF Report Generation & Export (Phase 7)
+  generateNdviReport: (analysisId) => apiClient.post(`/reports/generate/${analysisId}`),
+  generateComparisonReport: (comparisonId) => apiClient.post(`/reports/generate-comparison/${comparisonId}`),
+  listReports: () => apiClient.get('/reports/list'),
+  deleteReport: (filename) => apiClient.delete(`/reports/${filename}`),
 };
 
 export default apiClient;

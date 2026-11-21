@@ -133,66 +133,58 @@ Green_Vision/
 
 ---
 
-## 6. Setup & Execution Instructions (Phase 1)
+## 6. Execution & Verification Instructions
 
-### Prerequisites
-- Python 3.10+ (Python 3.12 recommended)
-- Node.js 18+ and npm
-
-### Backend Setup
+### Backend Execution & Testing
 1. Navigate to the backend directory:
    ```bash
    cd backend
    ```
-2. Create and activate a virtual environment:
+2. Run backend test suite (All 6 modules):
    ```bash
-   python -m venv venv
-   # On Windows:
-   .\venv\Scripts\activate
-   # On Linux/macOS:
-   source venv/bin/activate
+   python -m unittest discover -s tests
    ```
-3. Copy environment configuration:
-   ```bash
-   copy .env.example .env
-   ```
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Run the backend development server:
+3. Run the FastAPI development server:
    ```bash
    python run.py
    ```
-   The backend will start at `http://127.0.0.1:8000`.
+   The backend will start at `http://127.0.0.1:8000`:
    - Interactive Swagger API docs: `http://127.0.0.1:8000/docs`
-   - Health check: `http://127.0.0.1:8000/api/health`
-   - Madurai overview: `http://127.0.0.1:8000/api/madurai/overview`
-   - Madurai GeoJSON boundary: `http://127.0.0.1:8000/api/madurai/boundary`
+   - Operational Health: `http://127.0.0.1:8000/api/health`
+   - Madurai District Overview: `http://127.0.0.1:8000/api/madurai/overview`
+   - Madurai Official Boundary: `http://127.0.0.1:8000/api/madurai/boundary`
+   - Satellite Ingestion: `POST /api/satellite/upload`
+   - Boundary Masking: `POST /api/preprocessing/process/{id}`
+   - Authentic NDVI Calculation: `POST /api/ndvi/calculate/{id}`
+   - Click-to-Probe NDVI Pixel: `GET /api/ndvi/probe/{id}?lat={lat}&lon={lon}`
+   - Multi-Year Change Detection: `POST /api/comparison/compare`
+   - Official PDF Report Generation: `POST /api/reports/generate/{id}`
+   - PDF Download: `GET /api/reports/download/{filename}`
 
-### Frontend Setup
-1. Open a new terminal and navigate to the frontend directory:
+### Frontend Launch
+1. Navigate to the frontend directory:
    ```bash
    cd frontend
    ```
-2. Copy environment configuration:
-   ```bash
-   copy .env.example .env
-   ```
-3. Install frontend dependencies:
+2. Install frontend dependencies:
    ```bash
    npm install
    ```
-4. Launch the React development server:
+3. Launch the React development server:
    ```bash
    npm start
    ```
-   The frontend will open at `http://localhost:3000`.
+   The application dashboard will open at `http://localhost:3000`.
 
 ---
 
-## 7. Next Development Phase: Phase 2
-Following approval, Phase 2 will implement:
-- **Satellite Ingestion & Validation Service**: Multi-spectral band validation (detecting B04/B08 for Sentinel-2, B4/B5 for Landsat), bounding box verification against Madurai, and rejection of ordinary RGB photos.
-- **Upload API Endpoint**: `POST /api/satellite/upload`.
-- **Frontend Band Upload UI**: Drag-and-drop dual-band ingestion interface.
+## 7. Development Roadmap & Completed Modules
+
+All 7 core architectural modules have been designed, implemented, and verified:
+- [x] **Phase 1: Architecture, Project Structure & Foundation**
+- [x] **Phase 2: GIS Validation & Satellite Ingestion Module**
+- [x] **Phase 3: Preprocessing & District Boundary Masking**
+- [x] **Phase 4: Authentic NDVI Calculation & 5-Tier Classification**
+- [x] **Phase 5: Interactive Web GIS Dashboard & Map Viewer**
+- [x] **Phase 6: Multi-Year Temporal Change Analysis & Transition Matrix**
+- [x] **Phase 7: Professional PDF Report Generation & Export**

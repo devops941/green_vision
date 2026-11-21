@@ -136,18 +136,44 @@ class NdviAnalysisResponse(BaseModel):
 # Temporal Comparison Schemas
 # =====================================================================
 
+class ComparisonCreateRequest(BaseModel):
+    baseline_analysis_id: int
+    target_analysis_id: int
+    title: Optional[str] = None
+
+
 class ComparisonResponse(BaseModel):
     id: int
     title: str
     baseline_year: int
     target_year: int
+    baseline_analysis_id: int
+    target_analysis_id: int
     green_cover_delta_sq_km: float
     green_cover_delta_percentage: float
     vegetation_gain_sq_km: float
     vegetation_loss_sq_km: float
     vegetation_stable_sq_km: float
+    transition_matrix: Optional[Dict[str, Any]] = None
     difference_map_url: str
     created_at: datetime
 
     class Config:
         from_attributes = True
+
+
+# =====================================================================
+# PDF Report Schemas (Phase 7)
+# =====================================================================
+
+class GeneratedReportInfo(BaseModel):
+    report_id: str
+    report_type: str  # "ndvi_assessment" | "temporal_comparison"
+    title: str
+    filename: str
+    file_path: str
+    download_url: str
+    file_size_kb: float
+    created_at: datetime
+    analysis_id: Optional[int] = None
+    comparison_id: Optional[int] = None
