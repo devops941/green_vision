@@ -41,6 +41,8 @@ export const api = {
   listNdviAnalyses: () => apiClient.get('/ndvi/analyses'),
   getNdviAnalysis: (analysisId) => apiClient.get(`/ndvi/analyses/${analysisId}`),
   getNdviAnalysisByImage: (imageId) => apiClient.get(`/ndvi/analyses/image/${imageId}`),
+  probeNdviPixel: (imageId, lat, lon) =>
+    apiClient.get(`/ndvi/probe/${imageId}`, { params: { lat, lon } }),
 };
 
 export default apiClient;

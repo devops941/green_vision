@@ -193,6 +193,89 @@ def get_ndvi_analysis(analysis_id: int, db: Session = Depends(get_db)):
     )
 
 
+@router.get("/probe/{image_id}")
+def probe_ndvi_pixel(
+    image_id: int,
+    lat: float,
+    lon: float,
+    db: Session = Depends(get_db),
+):
+    """
+    Samples the exact Float32 NDVI value and vegetation category at given (lat, lon) coordinates.
+    """
+    analysis = db.query(NdviAnalysis).filter(NdviAnalysis.satellite_image_id == image_id).order_by(NdviAnalysis.created_at.desc()).first()
+    if not analysis:
+        raise HTTPException(status_code=404, detail="No NDVI analysis found for this scene.")
+
+    image = db.query(SatelliteImage).filter(SatelliteImage.id == image_id).first()
+    if not image:
+        raise HTTPException(status_code=404, detail="Satellite image not found.")
+
+    raster_path = Path(analysis.ndvi_raster_path)
+    if not raster_path.exists():
+        raise HTTPException(status_code=404, detail="NDVI raster file missing on disk.")
+
+    import tifffile
+    import numpy as np
+
+    with tifffile.TiffFile(str(raster_path)) as tf:
+        arr = tf.pages[0].asarray()
+        height, width = arr.shape
+
+    bbox = image.bbox or {}
+    min_lon = bbox.get("min_longitude", 77.68)
+    max_lon = bbox.get("max_longitude", 78.52)
+    min_lat = bbox.get("min_latitude", 9.53)
+    max_lat = bbox.get("max_latitude", 10.35)
+
+    if not (min_lon <= lon <= max_lon and min_lat <= lat <= max_lat):
+        return {
+            "status": "outside_extent",
+            "lat": lat,
+            "lon": lon,
+            "message": "Coordinate is outside satellite scene bounds for Madurai District.",
+        }
+
+    px = int(round(((lon - min_lon) / (max_lon - min_lon)) * (width - 1)))
+    py = int(round(((max_lat - lat) / (max_lat - min_lat)) * (height - 1)))
+
+    px = max(0, min(width - 1, px))
+    py = max(0, min(height - 1, py))
+
+    val = float(arr[py, px])
+
+    if val <= -9000.0 or np.isnan(val) or val < -1.0 or val > 1.0:
+        return {
+            "status": "nodata",
+            "lat": lat,
+            "lon": lon,
+            "message": "Location is outside Madurai administrative boundary or masked nodata.",
+        }
+
+    if val < 0.0:
+        cid, cname, col = 0, "Water Body", "#0D47A1"
+    elif val < 0.2:
+        cid, cname, col = 1, "Built-up / Barren Land", "#BDBDBD"
+    elif val < 0.4:
+        cid, cname, col = 2, "Sparse Vegetation", "#FFF59D"
+    elif val < 0.6:
+        cid, cname, col = 3, "Moderate Vegetation", "#66BB6A"
+    else:
+        cid, cname, col = 4, "Dense Vegetation", "#1B5E20"
+
+    return {
+        "status": "success",
+        "lat": lat,
+        "lon": lon,
+        "pixel": {"x": px, "y": py},
+        "ndvi": round(val, 4),
+        "class_id": cid,
+        "class_name": cname,
+        "color_hex": col,
+        "is_vegetation": cid >= 2,
+    }
+
+
 @router.get("/analyses/image/{image_id}", response_model=NdviAnalysisResponse)
 def get_ndvi_analysis_by_image(image_id: int, db: Session = Depends(get_db)):
     """Retrieves the latest NDVI analysis for a given satellite image ID."""
@@ -222,3 +305,86 @@ def get_ndvi_analysis_by_image(image_id: int, db: Session = Depends(get_db)):
         colorized_png_url=f"/static/ndvi/{colorized_file}",
         histogram_url=f"/static/ndvi/{hist_file}" if hist_file else None,
     )
+
+
+@router.get("/probe/{image_id}")
+def probe_ndvi_pixel(
+    image_id: int,
+    lat: float,
+    lon: float,
+    db: Session = Depends(get_db),
+):
+    """
+    Samples the exact Float32 NDVI value and vegetation category at given (lat, lon) coordinates.
+    """
+    analysis = db.query(NdviAnalysis).filter(NdviAnalysis.satellite_image_id == image_id).order_by(NdviAnalysis.created_at.desc()).first()
+    if not analysis:
+        raise HTTPException(status_code=404, detail="No NDVI analysis found for this scene.")
+
+    image = db.query(SatelliteImage).filter(SatelliteImage.id == image_id).first()
+    if not image:
+        raise HTTPException(status_code=404, detail="Satellite image not found.")
+
+    raster_path = Path(analysis.ndvi_raster_path)
+    if not raster_path.exists():
+        raise HTTPException(status_code=404, detail="NDVI raster file missing on disk.")
+
+    import tifffile
+    import numpy as np
+
+    with tifffile.TiffFile(str(raster_path)) as tf:
+        arr = tf.pages[0].asarray()
+        height, width = arr.shape
+
+    bbox = image.bbox or {}
+    min_lon = bbox.get("min_longitude", 77.68)
+    max_lon = bbox.get("max_longitude", 78.52)
+    min_lat = bbox.get("min_latitude", 9.53)
+    max_lat = bbox.get("max_latitude", 10.35)
+
+    if not (min_lon <= lon <= max_lon and min_lat <= lat <= max_lat):
+        return {
+            "status": "outside_extent",
+            "lat": lat,
+            "lon": lon,
+            "message": "Coordinate is outside satellite scene bounds for Madurai District.",
+        }
+
+    px = int(round(((lon - min_lon) / (max_lon - min_lon)) * (width - 1)))
+    py = int(round(((max_lat - lat) / (max_lat - min_lat)) * (height - 1)))
+
+    px = max(0, min(width - 1, px))
+    py = max(0, min(height - 1, py))
+
+    val = float(arr[py, px])
+
+    if val <= -9000.0 or np.isnan(val) or val < -1.0 or val > 1.0:
+        return {
+            "status": "nodata",
+            "lat": lat,
+            "lon": lon,
+            "message": "Location is outside Madurai administrative boundary or masked nodata.",
+        }
+
+    if val < 0.0:
+        cid, cname, col = 0, "Water Body", "#0D47A1"
+    elif val < 0.2:
+        cid, cname, col = 1, "Built-up / Barren Land", "#BDBDBD"
+    elif val < 0.4:
+        cid, cname, col = 2, "Sparse Vegetation", "#FFF59D"
+    elif val < 0.6:
+        cid, cname, col = 3, "Moderate Vegetation", "#66BB6A"
+    else:
+        cid, cname, col = 4, "Dense Vegetation", "#1B5E20"
+
+    return {
+        "status": "success",
+        "lat": lat,
+        "lon": lon,
+        "pixel": {"x": px, "y": py},
+        "ndvi": round(val, 4),
+        "class_id": cid,
+        "class_name": cname,
+        "color_hex": col,
+        "is_vegetation": cid >= 2,
+    }

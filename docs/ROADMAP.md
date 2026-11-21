@@ -86,12 +86,23 @@
 
 ---
 
-## Phase 5: Interactive Web GIS Dashboard & Map Viewer
-- [ ] Integrate Leaflet.js / React-Leaflet with Madurai bounding coordinates.
-- [ ] Render Madurai District GeoJSON vector boundary overlay.
-- [ ] Dynamic raster layer switcher (True Color, NIR, Colorized NDVI).
-- [ ] Interactive NDVI value inspector on hover / click.
-- [ ] Chart.js integration for vegetation distribution pie charts and NDVI histogram graphs.
+## Phase 5: Interactive Web GIS Dashboard & Map Viewer (COMPLETED)
+- [x] Implemented Leaflet & React-Leaflet GIS Map Viewer (`frontend/src/components/map/MaduraiMapViewer.jsx`):
+  - Fixed centered coordinates for Madurai District (`[9.9252°N, 78.1198°E]`).
+  - Base layer switcher: Satellite (Esri Imagery), Street (OpenStreetMap), Clean (CartoDB Light).
+  - Official Madurai District administrative vector boundary overlay from GeoJSON.
+  - Colorized NDVI raster image overlay with interactive opacity slider (0% to 100%).
+  - One-click "Reset View" button to return to Madurai District bounds.
+- [x] Implemented Backend Pixel Probe API (`GET /api/ndvi/probe/{image_id}?lat={lat}&lon={lon}`):
+  - Samples exact Float32 NDVI values and vegetation categories directly from the GeoTIFF raster at clicked coordinates.
+  - Handles nodata and boundary exclusions.
+- [x] Interactive On-Map Click Probe:
+  - Users can click anywhere on the Madurai map to place a green pin displaying exact sampled NDVI value and class badge.
+- [x] Chart.js Visual Components:
+  - `frontend/src/components/dashboard/VegetationDoughnutChart.jsx`: 5-tier distribution donut with center green-cover percentage.
+  - `frontend/src/components/dashboard/VegetationBarChart.jsx`: Horizontal hectare area distribution bars.
+- [x] Complete Executive Dashboard (`frontend/src/pages/DashboardPage.jsx`):
+  - Real-time KPI stat cards, embedded interactive GIS map, Chart.js visual charts, and scene quick-selector.
 
 ---
 

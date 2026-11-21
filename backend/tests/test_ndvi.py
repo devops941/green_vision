@@ -11,7 +11,12 @@ from app.services.ndvi_service import NdviService
 from app.services.classification_service import ClassificationService
 from app.core.database import SessionLocal, Base, engine
 from app.api.routes.satellite import upload_satellite_image, delete_satellite_image
-from app.api.routes.ndvi import calculate_ndvi_for_scene, get_ndvi_analysis, get_ndvi_analysis_by_image
+from app.api.routes.ndvi import (
+    calculate_ndvi_for_scene,
+    get_ndvi_analysis,
+    get_ndvi_analysis_by_image,
+    probe_ndvi_pixel,
+)
 from tests.test_gis_validator import create_mock_geotiff_buffer
 
 Base.metadata.create_all(bind=engine)
@@ -131,7 +136,32 @@ class TestNdviAndClassification(unittest.TestCase):
             by_image = get_ndvi_analysis_by_image(image_id=img.id, db=db)
             self.assertEqual(by_image.id, analysis_resp.id)
 
-            # 5. Clean up
+            # 5. Probe Pixel inside Scene Extent
+            bbox = img.bbox
+            mid_lat = (bbox["min_latitude"] + bbox["max_latitude"]) / 2.0
+            mid_lon = (bbox["min_longitude"] + bbox["max_longitude"]) / 2.0
+
+            probe_res = probe_ndvi_pixel(
+                image_id=img.id,
+                lat=mid_lat,
+                lon=mid_lon,
+                db=db,
+            )
+            self.assertIn(probe_res["status"], ["success", "nodata"])
+            if probe_res["status"] == "success":
+                self.assertIn("class_name", probe_res)
+                self.assertIn("ndvi", probe_res)
+
+            # Also probe a point outside extent to verify bounds check
+            outside_probe = probe_ndvi_pixel(
+                image_id=img.id,
+                lat=15.0, # Well outside Madurai
+                lon=80.0,
+                db=db,
+            )
+            self.assertEqual(outside_probe["status"], "outside_extent")
+
+            # 6. Clean up
             delete_satellite_image(image_id=img.id, db=db)
         finally:
             db.close()
