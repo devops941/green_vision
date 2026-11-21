@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
+  Globe,
   LayoutDashboard,
   Map,
   UploadCloud,
@@ -13,7 +14,8 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { path: '/', label: 'Executive Dashboard', icon: LayoutDashboard },
+  { path: '/', label: 'Overview & Portal', icon: Globe },
+  { path: '/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
   { path: '/madurai', label: 'Madurai District GIS', icon: Map },
   { path: '/upload', label: 'Satellite Ingestion', icon: UploadCloud },
   { path: '/ndvi', label: 'NDVI Analytics', icon: Sprout },

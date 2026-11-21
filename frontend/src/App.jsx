@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/common/Header';
 import Sidebar from './components/common/Sidebar';
+import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
 import MaduraiOverviewPage from './pages/MaduraiOverviewPage';
 import UploadPage from './pages/UploadPage';
@@ -20,7 +21,8 @@ function App() {
           <Header />
           <main className="page-body">
             <Routes>
-              <Route path="/" element={<DashboardPage />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/madurai" element={<MaduraiOverviewPage />} />
               <Route path="/upload" element={<UploadPage />} />
               <Route path="/ndvi" element={<NdviAnalysisPage />} />
