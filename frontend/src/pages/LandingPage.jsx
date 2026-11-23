@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
 import {
   Satellite,
   Compass,
@@ -24,6 +25,7 @@ import {
 
 const LandingPage = () => {
   const [activeTab, setActiveTab] = useState('ingestion');
+  useScrollReveal();
 
   return (
     <div className="animate-fade-in pb-5">
@@ -31,7 +33,7 @@ const LandingPage = () => {
       {/* 1. HERO SECTION                                                */}
       {/* ============================================================== */}
       <section
-        className="hero-telemetry-banner text-white p-4 p-md-5 mb-5 position-relative overflow-hidden"
+        className="hero-telemetry-banner text-white p-4 p-md-5 mb-5 position-relative overflow-hidden reveal-on-scroll"
         style={{
           background: 'linear-gradient(135deg, #061c12 0%, #0c3321 40%, #064e3b 100%)',
           borderRadius: '20px',
@@ -39,6 +41,14 @@ const LandingPage = () => {
           border: '1px solid rgba(16, 185, 129, 0.3)',
         }}
       >
+        {/* Decorative satellite telemetry overlays */}
+        <span className="ndvi-scanline" aria-hidden="true" />
+        <span
+          className="orbit-ring d-none d-md-inline-block position-absolute"
+          aria-hidden="true"
+          style={{ top: '1.5rem', right: '1.75rem', width: '90px', height: '90px', opacity: 0.5 }}
+        />
+
         <div className="position-relative" style={{ zIndex: 2 }}>
           {/* Top Status Capsule */}
           <div className="d-inline-flex align-items-center gap-2 mb-3 px-3 py-1.5 rounded-pill bg-black bg-opacity-30 border border-success border-opacity-40 shadow-sm">
@@ -130,13 +140,13 @@ const LandingPage = () => {
       {/* ============================================================== */}
       {/* 2. LIVE TELEMETRY SNAPSHOT CARDS                               */}
       {/* ============================================================== */}
-      <section className="mb-5">
+      <section className="mb-5 reveal-on-scroll reveal-delay-1">
         <div className="row g-3">
           <div className="col-6 col-lg-3">
             <div className="stat-card-pro p-3 p-md-4 hover-lift">
               <div>
                 <div className="stat-label">Geospatial Scope</div>
-                <div className="stat-value text-success mt-1">3,741</div>
+                <div className="stat-value text-success mt-1 count-pop">3,741</div>
                 <div className="small text-muted mt-1">km² District Area</div>
               </div>
               <div
@@ -233,7 +243,7 @@ const LandingPage = () => {
       {/* ============================================================== */}
       {/* 3. CORE SCIENTIFIC CAPABILITIES                                */}
       {/* ============================================================== */}
-      <section className="mb-5">
+      <section className="mb-5 reveal-on-scroll reveal-delay-2">
         <div className="text-center mb-4">
           <span className="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 font-monospace small mb-2">
             SCIENTIFIC GIS CAPABILITIES
@@ -298,7 +308,7 @@ const LandingPage = () => {
                 <h5 className="fw-bold mb-0">Vectorized NDVI Math</h5>
               </div>
               <p className="text-muted small leading-relaxed mb-3">
-                Calculates $(NIR - RED)/(NIR + RED)$ in high-precision Float32 NumPy arrays. Produces authentic
+                Calculates (NIR − RED) / (NIR + RED) in high-precision Float32 NumPy arrays. Produces authentic
                 Float32 GeoTIFFs, standard deviations, and Matplotlib frequency distribution histogram curves.
               </p>
               <div className="d-flex align-items-center gap-2 text-success small fw-semibold">
@@ -338,8 +348,8 @@ const LandingPage = () => {
                 <h5 className="fw-bold mb-0">Temporal Change Detection</h5>
               </div>
               <p className="text-muted small leading-relaxed mb-3">
-                Executes bi-temporal pixel diffing ($\Delta\text{NDVI} = T_2 - T_1$) between observation dates. Quantifies
-                net green-cover shift %, vegetation gain $\text{km}^2$, vegetation loss $\text{km}^2$, and generates spatial difference maps.
+                Executes bi-temporal pixel diffing (ΔNDVI = T₂ − T₁) between observation dates. Quantifies
+                net green-cover shift %, vegetation gain km², vegetation loss km², and generates spatial difference maps.
               </p>
               <div className="d-flex align-items-center gap-2 text-info small fw-semibold">
                 <span>Multi-Year Audits</span>
@@ -373,7 +383,7 @@ const LandingPage = () => {
       {/* ============================================================== */}
       {/* 4. INTERACTIVE CAPABILITY WORKSPACE SHOWCASE                   */}
       {/* ============================================================== */}
-      <section className="card-pro p-4 p-md-5 mb-5 shadow-sm">
+      <section className="card-pro p-4 p-md-5 mb-5 shadow-sm reveal-on-scroll reveal-delay-3">
         <div className="row align-items-center g-4">
           <div className="col-lg-5">
             <span className="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 font-monospace small mb-2">
@@ -498,7 +508,7 @@ const LandingPage = () => {
                   </div>
                   <h5 className="fw-bold text-dark">Vectorized Float32 Surface Reflectance Math</h5>
                   <p className="text-muted small leading-relaxed">
-                    Computes $(NIR - RED)/(NIR + RED)$ pixel-by-pixel. Categorizes the district into 5 ecological tiers:
+                    Computes (NIR − RED) / (NIR + RED) pixel-by-pixel. Categorizes the district into 5 ecological tiers:
                     Water Bodies, Built-up/Bare Soil, Sparse Vegetation, Moderate Canopy, and Dense Forest.
                     Generates colorized PNG maps and Matplotlib frequency curves.
                   </p>
@@ -530,7 +540,7 @@ const LandingPage = () => {
                   </div>
                   <h5 className="fw-bold text-dark">Bi-Temporal Transition Matrix & Export</h5>
                   <p className="text-muted small leading-relaxed">
-                    Evaluates multi-year shifts ($\Delta\text{NDVI} = T_2 - T_1$) between dry season (2020) and post-monsoon (2024).
+                    Evaluates multi-year shifts (ΔNDVI = T₂ − T₁) between dry season (2020) and post-monsoon (2024).
                     Maps canopy degradation, afforestation gains, and compiles official publication-quality assessment PDFs via ReportLab.
                   </p>
                   <div className="p-3 bg-white rounded border small mb-3">
@@ -556,7 +566,7 @@ const LandingPage = () => {
       {/* ============================================================== */}
       {/* 5. MADURAI DISTRICT TALUKS SHOWCASE                            */}
       {/* ============================================================== */}
-      <section className="card-pro p-4 p-md-5 mb-5 shadow-sm">
+      <section className="card-pro p-4 p-md-5 mb-5 shadow-sm reveal-on-scroll reveal-delay-4">
         <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
           <div>
             <span className="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 font-monospace small mb-2">
@@ -605,7 +615,7 @@ const LandingPage = () => {
       {/* 6. READY TO LAUNCH CALL TO ACTION BANNER                       */}
       {/* ============================================================== */}
       <section
-        className="p-4 p-md-5 text-center text-white rounded-4 shadow-lg position-relative overflow-hidden mb-4"
+        className="p-4 p-md-5 text-center text-white rounded-4 shadow-lg position-relative overflow-hidden mb-4 reveal-on-scroll"
         style={{
           background: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)',
           border: '1px solid rgba(52, 211, 153, 0.4)',

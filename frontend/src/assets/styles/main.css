@@ -28,11 +28,12 @@ body {
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(180deg, #94a3b8 0%, #cbd5e1 100%);
   border-radius: 4px;
+  transition: background 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gv-primary);
+  background: var(--gv-gradient-emerald-h, linear-gradient(180deg, #10b981 0%, #059669 100%));
 }
 
 /* -------------------------------------------------------------
@@ -110,6 +111,108 @@ body {
 }
 
 /* -------------------------------------------------------------
+   GIS / NDVI / Satellite Keyframes (project-specific additions)
+   ------------------------------------------------------------- */
+
+/* Aurora Shift — slow gradient position drift for banner backgrounds */
+@keyframes aurora-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* NDVI Scan — horizontal raster scanline sweep */
+@keyframes ndvi-scan {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
+
+/* Shimmer — left-to-right light sweep for loading skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+/* Count Pop — subtle scale + fade for KPI stat numbers */
+@keyframes count-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  70% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Orbit Ring — rotating dashed satellite orbit ring */
+@keyframes orbit-ring {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Signal Bars — stepped opacity for telemetry signal indicator */
+@keyframes signal-bars {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Gradient Border Rotate — conic gradient spin for card border glow */
+@keyframes gradient-border-rotate {
+  from {
+    --gv-conic-angle: 0deg;
+    transform: rotate(0deg);
+  }
+  to {
+    --gv-conic-angle: 360deg;
+    transform: rotate(360deg);
+  }
+}
+
+/* Aurora Breathe — opacity pulse for ::after radial glow overlays */
+@keyframes aurora-breathe {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* -------------------------------------------------------------
    Animation Utility Classes
    ------------------------------------------------------------- */
 .animate-fade-in {
@@ -144,6 +247,132 @@ body {
 
 .glow-effect {
   animation: glow-pulse 3s infinite ease-in-out;
+}
+
+/* -------------------------------------------------------------
+   Scroll Reveal Utilities (JS toggles .is-visible)
+   ------------------------------------------------------------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.6s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Staggered entry delays */
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* -------------------------------------------------------------
+   Loading Skeleton Shimmer
+   ------------------------------------------------------------- */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f1f5f9 50%,
+    #e2e8f0 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: var(--gv-radius-sm);
+}
+
+/* -------------------------------------------------------------
+   NDVI Scanline Overlay
+   ------------------------------------------------------------- */
+.ndvi-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--gv-primary-accent) 40%,
+    var(--gv-primary) 60%,
+    transparent 100%
+  );
+  animation: ndvi-scan 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------------
+   Orbit Ring Decorator
+   ------------------------------------------------------------- */
+.orbit-ring {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 2px dashed rgba(16, 185, 129, 0.55);
+  border-radius: 50%;
+  animation: orbit-ring 12s linear infinite;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------
+   Telemetry Signal Indicator
+   ------------------------------------------------------------- */
+.signal-indicator {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+}
+
+.signal-indicator span {
+  display: block;
+  width: 4px;
+  background: var(--gv-primary);
+  border-radius: 2px 2px 0 0;
+  animation: signal-bars 1.4s ease-in-out infinite;
+}
+
+.signal-indicator span:nth-child(1) {
+  height: 5px;
+  animation-delay: 0s;
+}
+
+.signal-indicator span:nth-child(2) {
+  height: 9px;
+  animation-delay: 0.2s;
+}
+
+.signal-indicator span:nth-child(3) {
+  height: 13px;
+  animation-delay: 0.4s;
+}
+
+.signal-indicator span:nth-child(4) {
+  height: 16px;
+  animation-delay: 0.6s;
+}
+
+/* -------------------------------------------------------------
+   Count Pop — KPI stat entry animation
+   ------------------------------------------------------------- */
+.count-pop {
+  animation: count-pop 0.55s cubic-bezier(0.16, 0.84, 0.44, 1) both;
+}
+
+/* -------------------------------------------------------------
+   Animated Gradient Banner
+   ------------------------------------------------------------- */
+.animated-gradient-banner {
+  background: var(--gv-gradient-aurora);
+  background-size: 200% 200%;
+  animation: aurora-shift 10s ease infinite;
 }
 
 /* -------------------------------------------------------------
@@ -288,7 +517,11 @@ body {
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    background-color 0.26s cubic-bezier(0.16, 0.84, 0.44, 1),
+    color 0.26s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.26s cubic-bezier(0.16, 0.84, 0.44, 1),
+    box-shadow 0.26s cubic-bezier(0.16, 0.84, 0.44, 1);
   position: relative;
 }
 
@@ -296,6 +529,7 @@ body {
   background-color: var(--gv-sidebar-hover);
   color: #ffffff;
   transform: translateX(3px);
+  box-shadow: inset 3px 0 0 rgba(16, 185, 129, 0.5);
 }
 
 .nav-link-custom.active {
@@ -303,6 +537,7 @@ body {
   color: #ffffff;
   font-weight: 600;
   border-left: 3.5px solid #10b981;
+  box-shadow: inset 0 0 12px rgba(16, 185, 129, 0.08);
 }
 
 .nav-link-custom.active svg {
@@ -327,13 +562,17 @@ body {
   border: 1px solid var(--gv-card-border);
   border-radius: var(--gv-radius);
   box-shadow: var(--gv-shadow-sm);
-  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    box-shadow 0.32s cubic-bezier(0.16, 0.84, 0.44, 1),
+    border-color 0.32s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.32s cubic-bezier(0.16, 0.84, 0.44, 1);
   overflow: hidden;
 }
 
 .card-pro:hover {
-  box-shadow: var(--gv-shadow-md);
-  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: var(--gv-shadow-md), var(--gv-shadow-emerald-sm);
+  border-color: rgba(16, 185, 129, 0.45);
+  transform: translateY(-2px);
 }
 
 .hover-lift {
@@ -371,7 +610,10 @@ body {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.34s cubic-bezier(0.16, 0.84, 0.44, 1),
+    box-shadow 0.34s cubic-bezier(0.16, 0.84, 0.44, 1),
+    border-color 0.34s cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
 .stat-card-pro::before {
@@ -381,15 +623,15 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  background: var(--gv-gradient-emerald-h, linear-gradient(90deg, #10b981 0%, #34d399 100%));
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.34s cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
 .stat-card-pro:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.08);
-  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.1), var(--gv-shadow-emerald-sm);
+  border-color: rgba(16, 185, 129, 0.45);
 }
 
 .stat-card-pro:hover::before {
@@ -434,6 +676,7 @@ body {
   bottom: 0;
   background: radial-gradient(circle at 85% 20%, rgba(52, 211, 153, 0.15) 0%, transparent 60%);
   pointer-events: none;
+  animation: aurora-breathe 6s ease-in-out infinite;
 }
 
 /* Glass Panel */
@@ -448,4 +691,59 @@ body {
 /* Progress bar transitions */
 .progress-bar {
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* -------------------------------------------------------------
+   Accessibility — Respect prefers-reduced-motion
+   ------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all decorative continuous animations */
+  .animate-fade-in,
+  .float-icon,
+  .orbit-icon,
+  .orbit-ring,
+  .glow-effect,
+  .radar-beacon,
+  .radar-beacon-danger,
+  .ndvi-scanline,
+  .signal-indicator span,
+  .count-pop,
+  .animated-gradient-banner,
+  .skeleton-shimmer {
+    animation: none !important;
+  }
+
+  /* Snap hero banner glow — no breathing animation */
+  .hero-telemetry-banner::after {
+    animation: none !important;
+    opacity: 0.75;
+  }
+
+  /* Collapse reveal transitions to near-instant */
+  .reveal-on-scroll,
+  .reveal-delay-1,
+  .reveal-delay-2,
+  .reveal-delay-3,
+  .reveal-delay-4 {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  /* Flatten hover transforms for motion-sensitive users */
+  .card-pro:hover,
+  .stat-card-pro:hover,
+  .hover-lift:hover,
+  .scope-badge-pro:hover {
+    transform: none !important;
+  }
+
+  /* Freeze nav slide */
+  .nav-link-custom:hover {
+    transform: none !important;
+  }
+
+  /* Keep progress bar functional but instant */
+  .progress-bar {
+    transition-duration: 0.01ms !important;
+  }
 }

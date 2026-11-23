@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
 import {
   MapPin,
   Globe,
@@ -18,6 +19,8 @@ const MaduraiOverviewPage = () => {
   const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useScrollReveal([loading]);
 
   const fetchOverview = () => {
     setLoading(true);
@@ -41,7 +44,7 @@ const MaduraiOverviewPage = () => {
   return (
     <div className="animate-fade-in">
       {/* Top Geospatial Header Banner */}
-      <div className="hero-telemetry-banner mb-4">
+      <div className="hero-telemetry-banner mb-4 reveal-on-scroll">
         <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 position-relative" style={{ zIndex: 2 }}>
           <div>
             <div className="d-flex align-items-center gap-2 mb-2">
@@ -92,7 +95,7 @@ const MaduraiOverviewPage = () => {
       ) : overview ? (
         <div>
           {/* Top Quick Telemetry Cards */}
-          <div className="row g-3 mb-4">
+          <div className="row g-3 mb-4 reveal-on-scroll reveal-delay-1">
             <div className="col-sm-6 col-lg-3">
               <div className="stat-card-pro hover-lift">
                 <div>
@@ -191,7 +194,7 @@ const MaduraiOverviewPage = () => {
           </div>
 
           {/* Profile & Bounding Box Cards */}
-          <div className="row g-4 mb-4">
+          <div className="row g-4 mb-4 reveal-on-scroll reveal-delay-2">
             <div className="col-md-6">
               <div className="card-pro h-100 p-4 shadow-sm hover-lift">
                 <h5 className="fw-bold mb-3 d-flex align-items-center gap-2">
@@ -263,7 +266,7 @@ const MaduraiOverviewPage = () => {
           </div>
 
           {/* Covered Administrative Taluks */}
-          <div className="card-pro p-4 shadow-sm mb-4">
+          <div className="card-pro p-4 shadow-sm mb-4 reveal-on-scroll reveal-delay-3">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5 className="fw-bold mb-0 d-flex align-items-center gap-2">
                 <Compass size={20} className="text-success" />

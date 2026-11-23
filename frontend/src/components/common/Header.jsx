@@ -40,6 +40,17 @@ const Header = () => {
 
       {/* Real-time Telemetry & Scope Chips */}
       <div className="d-flex align-items-center gap-2 gap-md-3">
+        {/* Live Telemetry Signal Indicator */}
+        <div className="sensor-chip d-none d-lg-flex align-items-center gap-2" title="Live Telemetry Stream">
+          <span className="signal-indicator" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <span className="small fw-semibold text-success">Live Feed</span>
+        </div>
+
         {/* Live Clock Chip */}
         <div className="sensor-chip d-none d-md-flex align-items-center gap-1">
           <Clock size={13} className="text-muted" />

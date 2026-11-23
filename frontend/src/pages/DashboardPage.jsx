@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
 import {
   Sprout,
   Trees,
@@ -58,6 +59,8 @@ const DashboardPage = () => {
       });
   }, []);
 
+  useScrollReveal([loading]);
+
   const handleSelectAnalysis = (analysisId) => {
     const selected = analyses.find((a) => a.id === Number(analysisId));
     if (selected) {
@@ -70,7 +73,7 @@ const DashboardPage = () => {
   return (
     <div className="animate-fade-in">
       {/* High-Tech Hero Telemetry Banner */}
-      <div className="hero-telemetry-banner">
+      <div className="hero-telemetry-banner reveal-on-scroll">
         <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 position-relative" style={{ zIndex: 2 }}>
           <div>
             <div className="d-flex align-items-center gap-2 mb-2">
@@ -120,7 +123,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Primary KPI Indicator Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-4 reveal-on-scroll reveal-delay-1">
         <div className="col-12 col-sm-6 col-xl-3">
           <StatCard
             title="District Total Area"
@@ -169,7 +172,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Main Interactive Map & Charts Grid */}
-      <div className="row g-4 mb-4">
+      <div className="row g-4 mb-4 reveal-on-scroll reveal-delay-2">
         {/* Interactive GIS Map Viewer */}
         <div className="col-xl-7 col-lg-6">
           <div className="d-flex justify-content-between align-items-center mb-2">
@@ -238,7 +241,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Recent Satellite Activity Table */}
-      <div className="card-pro shadow-sm p-4">
+      <div className="card-pro shadow-sm p-4 reveal-on-scroll reveal-delay-3">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div className="d-flex align-items-center gap-2">
             <Satellite size={20} className="text-success" />
